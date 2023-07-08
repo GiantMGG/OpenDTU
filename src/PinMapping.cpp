@@ -62,6 +62,30 @@
 #define HOYMILES_PIN_MOSI -1
 #endif
 
+#ifndef SDREADER_PIN_SCLK
+#define SDREADER_PIN_SCLK -1
+#endif
+
+#ifndef SDREADER_PIN_CS
+#define SDREADER_PIN_CS -1
+#endif
+
+#ifndef SDREADER_PIN_CE
+#define SDREADER_PIN_CE -1
+#endif
+
+#ifndef SDREADER_PIN_IRQ
+#define SDREADER_PIN_IRQ -1
+#endif
+
+#ifndef SDREADER_PIN_MISO
+#define SDREADER_PIN_MISO -1
+#endif
+
+#ifndef SDREADER_PIN_MOSI
+#define SDREADER_PIN_MOSI -1
+#endif
+
 #ifndef CMT_CLK
 #define CMT_CLK -1
 #endif
@@ -124,6 +148,13 @@ PinMappingClass::PinMappingClass()
     _pinMapping.display_cs = DISPLAY_CS;
     _pinMapping.display_reset = DISPLAY_RESET;
 
+    _pinMapping.sdreader_clk = SDREADER_PIN_SCLK;
+    _pinMapping.sdreader_cs = SDREADER_PIN_CS;
+    _pinMapping.sdreader_en = SDREADER_PIN_CE;
+    _pinMapping.sdreader_irq = SDREADER_PIN_IRQ;
+    _pinMapping.sdreader_miso = SDREADER_PIN_MISO;
+    _pinMapping.sdreader_mosi = SDREADER_PIN_MOSI;
+
     _pinMapping.led[0] = LED0;
     _pinMapping.led[1] = LED1;
 }
@@ -158,6 +189,13 @@ bool PinMappingClass::init(const String& deviceMapping)
             _pinMapping.nrf24_irq = doc[i]["nrf24"]["irq"] | HOYMILES_PIN_IRQ;
             _pinMapping.nrf24_miso = doc[i]["nrf24"]["miso"] | HOYMILES_PIN_MISO;
             _pinMapping.nrf24_mosi = doc[i]["nrf24"]["mosi"] | HOYMILES_PIN_MOSI;
+
+            _pinMapping.sdreader_clk = doc[i]["sdreader"]["clk"] | SDREADER_PIN_SCLK;
+            _pinMapping.sdreader_cs = doc[i]["sdreader"]["cs"] | SDREADER_PIN_CS;
+            _pinMapping.sdreader_en = doc[i]["sdreader"]["en"] | SDREADER_PIN_CE;
+            _pinMapping.sdreader_irq = doc[i]["sdreader"]["irq"] | SDREADER_PIN_IRQ;
+            _pinMapping.sdreader_miso = doc[i]["sdreader"]["miso"] | SDREADER_PIN_MISO;
+            _pinMapping.sdreader_mosi = doc[i]["sdreader"]["mosi"] | SDREADER_PIN_MOSI;
 
             _pinMapping.cmt_clk = doc[i]["cmt"]["clk"] | CMT_CLK;
             _pinMapping.cmt_cs = doc[i]["cmt"]["cs"] | CMT_CS;

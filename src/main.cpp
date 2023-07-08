@@ -16,12 +16,17 @@
 #include "NetworkSettings.h"
 #include "NtpSettings.h"
 #include "PinMapping.h"
+#include "SdCard.h"
 #include "SunPosition.h"
 #include "Utils.h"
 #include "WebApi.h"
 #include "defaults.h"
 #include <Arduino.h>
 #include <LittleFS.h>
+
+SPIClass spi = SPIClass(HSPI);
+
+
 
 void setup()
 {
@@ -124,6 +129,31 @@ void setup()
     Display.setStartupDisplay();
     MessageOutput.println("done");
 
+    // Initialize SD Card
+    spi.begin(14,12,13,15);
+    if(SD.begin(15,spi)){
+        uint8_t cardType = SD.cardType();
+        if(cardType == CARD_NONE){
+        Serial.println("No SD card attached");
+        return;
+        }
+        Serial.print("SD Card Type: ");
+        if(cardType == CARD_MMC){
+            Serial.println("MMC");
+        } else if(cardType == CARD_SD){
+            Serial.println("SDSC");
+        } else if(cardType == CARD_SDHC){
+            Serial.println("SDHC");
+        } else {
+            Serial.println("UNKNOWN");
+        }
+        uint64_t cardSize = SD.cardSize() / (1024 * 1024);
+        Serial.printf("SD Card Size: %lluMB\n", cardSize);
+
+
+    }
+    else{Serial.println("Card Mount Failed");}
+  
     // Initialize Single LEDs
     MessageOutput.print("Initialize LEDs... ");
     LedSingle.init();
@@ -164,6 +194,8 @@ void loop()
     MqttHandleHass.loop();
     yield();
     WebApi.loop();
+    yield();
+    SdCard.loop();
     yield();
     Display.loop();
     yield();

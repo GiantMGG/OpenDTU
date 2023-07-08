@@ -19,6 +19,13 @@ struct PinMapping_t {
     int8_t nrf24_en;
     int8_t nrf24_cs;
 
+    int8_t sdreader_miso;
+    int8_t sdreader_mosi;
+    int8_t sdreader_clk;
+    int8_t sdreader_irq;
+    int8_t sdreader_en;
+    int8_t sdreader_cs;
+
     int8_t cmt_clk;
     int8_t cmt_cs;
     int8_t cmt_fcs;
